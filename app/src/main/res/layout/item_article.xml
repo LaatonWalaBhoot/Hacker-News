@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_marginTop="4dp"
+    android:layout_width="match_parent"
+    android:layout_height="80dp">
+
+    <RelativeLayout
+        android:background="@color/colorPrimary"
+        android:layout_weight="0.2"
+        android:layout_width="0dp"
+        android:layout_height="80dp" >
+
+        <TextView
+            android:id="@+id/score"
+            android:textStyle="bold"
+            android:layout_centerInParent="true"
+            android:textColor="@color/score_text"
+            android:textSize="20sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:background="@color/item_background"
+        android:layout_weight="0.6"
+        android:layout_width="0dp"
+        android:layout_height="80dp">
+
+        <TextView
+            android:layout_marginStart="16dp"
+            android:id="@+id/title"
+            android:textStyle="bold"
+            android:textColor="@color/item_text"
+            android:maxLines="2"
+            android:lineSpacingExtra="1dp"
+            android:gravity="center_vertical|start"
+            android:textSize="20sp"
+            android:layout_width="match_parent"
+            android:layout_height="45dp" />
+        
+        <TextView
+            android:layout_marginStart="16dp"
+            android:id="@+id/url"
+            android:singleLine="true"
+            android:textStyle="italic"
+            android:textColor="@color/url_text"
+            android:layout_below="@+id/title"
+            android:gravity="center|start"
+            android:textSize="12sp"
+            android:layout_width="match_parent"
+            android:layout_height="15dp" />
+
+        <TextView
+            android:layout_marginStart="16dp"
+            android:id="@+id/time"
+            android:textColor="@color/comment_text"
+            android:layout_below="@+id/url"
+            android:gravity="top|start"
+            android:textSize="14sp"
+            android:layout_width="match_parent"
+            android:layout_height="20dp" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:background="@color/item_background"
+        android:layout_weight="0.2"
+        android:layout_width="0dp"
+        android:layout_height="80dp">
+        
+        <ImageView
+            android:layout_centerInParent="true"
+            android:id="@+id/comment_icon"
+            android:src="@drawable/ic_comment"
+            android:layout_width="25dp"
+            android:layout_height="25dp" />
+
+        <TextView
+            android:layout_centerHorizontal="true"
+            android:id="@+id/comments"
+            android:textColor="@color/comment_text"
+            android:textSize="12sp"
+            android:layout_below="@+id/comment_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        
+    </RelativeLayout>
+
+</LinearLayout>

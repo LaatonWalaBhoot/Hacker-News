@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- PRIMARY -->
+    <color name="colorPrimary">#ffc9a5</color>
+    <color name="colorPrimaryDark">#ff6600</color>
+    <color name="colorAccent">#ff6600</color>
+
+    <!-- TEXT -->
+    <color name="score_text">#856957</color>
+    <color name="item_text">#626262</color>
+    <color name="url_text">#b9b9b9</color>
+    <color name="comment_text">#7d7d7d</color>
+
+    <!-- BACKGROUND -->
+    <color name="item_background">#efefef</color>
+    <color name="facebook_blue_light">#425bb4</color>
+</resources>

@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">Hacker News</string>
+    <string name="facebook_application_id">834606876731850</string>
+    <string name="fb_login_protocol_scheme">fb834606876731850</string>
+
+    <!-- OTHERS -->
+    <string name="mobile">Mobile</string>
+    <string name="otp_timed_out">OTP timed out</string>
+    <string name="working">Working…</string>
+    <string name="updated">Updated</string>
+    <string name="login">SIGN IN</string>
+
+    <!-- ERRORS -->
+    <string name="empty_phone_number">Enter Phone Number</string>
+    <string name="invalid_phone_number">Invalid Phone Number</string>
+    <string name="attempts_exceeded">Too Many Attempts</string>
+    <string name="invalid_otp">Invalid OTP</string>
+</resources>
