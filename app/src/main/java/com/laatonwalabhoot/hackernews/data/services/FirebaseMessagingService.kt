@@ -18,12 +18,12 @@ class FirebaseMessagingService: FirebaseMessagingService() {
 
     override fun onMessageReceived(p0: RemoteMessage) {
         //Calling method to generate notification
-        sendNotification(p0.notification!!.title!!, p0.notification!!.body!!, p0.data)
+        sendNotification(p0.notification!!.title!!, p0.notification!!.body!!)
     }
 
     //This method is only generating push notification
-    private fun sendNotification(messageTitle: String, messageBody: String, row: Map<String, String>) {
-        notificationBuilder = NotificationCompat.Builder(this)
+    private fun sendNotification(messageTitle: String, messageBody: String) {
+        notificationBuilder = NotificationCompat.Builder(this,"MY_CH_ID")
                 .setLargeIcon(BitmapFactory.decodeResource(resources, R.mipmap.ic_launcher))
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentTitle(messageTitle)

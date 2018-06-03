@@ -36,7 +36,7 @@ class RealmDatabaseManager {
 
     fun addToRealm(article: Article) {
         val realm: Realm = Realm.getDefaultInstance()
-        realm.use { realm ->
+        realm.use { _ ->
             realm.executeTransaction(Realm.Transaction {
                 run {
                     realm.copyToRealm(article)
