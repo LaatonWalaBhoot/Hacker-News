@@ -1,5 +1,6 @@
 package com.laatonwalabhoot.hackernews.ui.detail.article
 
+import android.annotation.SuppressLint
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -34,8 +35,11 @@ class ArticleFragment : Fragment() {
         setupWebView()
     }
 
+    @SuppressLint("SetJavaScriptEnabled")
     private fun setupWebView() {
         progress.visibility = View.VISIBLE
+        web_view.settings.javaScriptEnabled = true
+        web_view.settings.javaScriptCanOpenWindowsAutomatically = true
         web_view.loadUrl(detailViewModel.getArticleForFragments().url)
         web_view.webViewClient = object : WebViewClient() {
 
