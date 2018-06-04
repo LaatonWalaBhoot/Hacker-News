@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import com.laatonwalabhoot.hackernews.common.Constants
-import com.laatonwalabhoot.hackernews.data.remote.ApiClient
 import com.laatonwalabhoot.hackernews.data.remote.ApiService
 import com.laatonwalabhoot.hackernews.data.managers.db.RealmDatabaseManager
 import com.laatonwalabhoot.hackernews.data.models.Article
@@ -24,7 +23,7 @@ class ListViewModel : ViewModel() {
     /************************************
      * PUBLIC METHODS
      ************************************/
-    fun initCall() {
+    fun initCall(apiService: ApiService) {
         apiStatus.postValue(Constants.STATUS_START)
         disposableObserver = apiService.getTopArticles()
                 .flatMap {
@@ -52,11 +51,10 @@ class ListViewModel : ViewModel() {
     }
 
     @SuppressLint("CheckResult")
-    fun initList() {
+    fun initList(apiService: ApiService) {
         realmList = RealmList()
-        apiService = ApiClient.getInstance().getApiService()
         return when (RealmDatabaseManager.getInstance().checkRealmStatus()) {
-            true -> initCall()
+            true -> initCall(apiService)
             false -> RealmDatabaseManager.getInstance().getFromRealmDb()
         }
     }

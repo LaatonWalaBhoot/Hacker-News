@@ -16,11 +16,17 @@ class FirebaseMessagingService: FirebaseMessagingService() {
     private var count = 0
     private val pendingIntent: PendingIntent? = null
 
+    /************************************
+     * OVERRIDDEN METHODS
+     ************************************/
     override fun onMessageReceived(p0: RemoteMessage) {
         //Calling method to generate notification
         sendNotification(p0.notification!!.title!!, p0.notification!!.body!!)
     }
 
+    /************************************
+     * PRIVATE METHODS
+     ************************************/
     //This method is only generating push notification
     private fun sendNotification(messageTitle: String, messageBody: String) {
         notificationBuilder = NotificationCompat.Builder(this,"MY_CH_ID")

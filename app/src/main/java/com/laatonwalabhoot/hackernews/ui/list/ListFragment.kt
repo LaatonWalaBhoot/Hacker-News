@@ -2,6 +2,7 @@ package com.laatonwalabhoot.hackernews.ui.list
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
@@ -9,16 +10,33 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.google.gson.Gson
+import com.laatonwalabhoot.hackernews.HackerNews
 import com.laatonwalabhoot.hackernews.R
 import com.laatonwalabhoot.hackernews.common.Constants
 import com.laatonwalabhoot.hackernews.data.models.Article
+import com.laatonwalabhoot.hackernews.data.remote.ApiService
+import com.laatonwalabhoot.hackernews.di.components.DaggerListFragmentComponent
+import com.laatonwalabhoot.hackernews.di.components.ListFragmentComponent
 import com.laatonwalabhoot.hackernews.ui.detail.DetailActivity
 import kotlinx.android.synthetic.main.fragment_list.*
+import retrofit2.Retrofit
+import javax.inject.Inject
 
 class ListFragment : Fragment(), ListAdapter.OnItemClickListener {
 
     private lateinit var listViewModel: ListViewModel
-    private var listAdapter: ListAdapter = ListAdapter()
+    private lateinit var component: ListFragmentComponent
+
+    @Inject
+    lateinit var apiService: ApiService
+
+    @Inject
+    lateinit var listAdapter: ListAdapter
+
+    @Inject
+    lateinit var gson: Gson
+
 
     companion object {
         fun newInstance() = ListFragment()
@@ -35,6 +53,12 @@ class ListFragment : Fragment(), ListAdapter.OnItemClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         listViewModel = ViewModelProviders.of(this).get(ListViewModel::class.java)
+        component = DaggerListFragmentComponent.builder()
+                .appComponent(HackerNews.newInstance()
+                        .getApp(activity as ListActivity)
+                        .getAppComponent())
+                .build()
+        component.injectListFragment(this)
         setAdapter()
         setSubscriber()
         fab_btn.setOnClickListener {
@@ -43,7 +67,7 @@ class ListFragment : Fragment(), ListAdapter.OnItemClickListener {
                     stopWorking()
                 }
                 else -> {
-                    listViewModel.initCall()
+                    listViewModel.initCall(apiService)
                     startWorking()
                 }
             }
@@ -51,7 +75,8 @@ class ListFragment : Fragment(), ListAdapter.OnItemClickListener {
     }
 
     override fun onItemClick(article: Article) {
-        startActivity(DetailActivity.newIntent(context!!, article))
+        startActivity(Intent(context, DetailActivity::class.java)
+                .putExtra(Constants.EXTRA_ARTICLE, gson.toJson(article)))
     }
 
     override fun onPause() {
@@ -68,7 +93,7 @@ class ListFragment : Fragment(), ListAdapter.OnItemClickListener {
         articles_list.layoutManager = LinearLayoutManager(context)
         articles_list.adapter = listAdapter
         listAdapter.setOnItemClickListener(this)
-        listViewModel.initList()
+        listViewModel.initList(apiService)
     }
 
     private fun setSubscriber() {

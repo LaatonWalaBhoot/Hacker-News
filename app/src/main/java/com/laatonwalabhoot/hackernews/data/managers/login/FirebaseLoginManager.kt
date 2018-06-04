@@ -10,12 +10,7 @@ import java.util.*
 class FirebaseLoginManager {
 
     companion object {
-        private val firebaseLoginManager: FirebaseLoginManager = FirebaseLoginManager()
-
-        @Synchronized
-        fun getInstance(): FirebaseLoginManager {
-            return firebaseLoginManager
-        }
+        fun getInstance() = FirebaseLoginManager()
     }
 
     /************************************

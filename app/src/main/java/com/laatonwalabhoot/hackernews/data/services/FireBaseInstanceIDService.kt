@@ -6,6 +6,9 @@ import com.google.firebase.iid.FirebaseInstanceIdService
 
 class FireBaseInstanceIDService: FirebaseInstanceIdService() {
 
+    /************************************
+     * OVERRIDDEN METHODS
+     ************************************/
     override fun onTokenRefresh() {
         super.onTokenRefresh()
 

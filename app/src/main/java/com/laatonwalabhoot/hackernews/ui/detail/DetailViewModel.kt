@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import com.laatonwalabhoot.hackernews.common.Constants
-import com.laatonwalabhoot.hackernews.data.remote.ApiClient
 import com.laatonwalabhoot.hackernews.data.remote.ApiService
 import com.laatonwalabhoot.hackernews.data.models.Article
 import com.laatonwalabhoot.hackernews.data.models.Comment
@@ -18,7 +17,6 @@ class DetailViewModel : ViewModel() {
     private lateinit var article: Article
     private var apiStatus: MutableLiveData<String> = MutableLiveData()
     private lateinit var disposableObserver: DisposableObserver<Comment>
-    private lateinit var apiService: ApiService
     private lateinit var onDataChangeListener: OnDataChangeListener
 
 
@@ -31,9 +29,8 @@ class DetailViewModel : ViewModel() {
     }
 
     @SuppressLint("CheckResult")
-    fun initList() {
+    fun initList(apiService: ApiService) {
         apiStatus.postValue(Constants.STATUS_START)
-        apiService = ApiClient.getInstance().getApiService()
         disposableObserver = Observable.fromIterable(article.kids)
                 .flatMap {
                     apiService.getComment(it)

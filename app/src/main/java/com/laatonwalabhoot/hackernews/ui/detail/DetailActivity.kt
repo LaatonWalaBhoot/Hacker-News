@@ -11,29 +11,30 @@ import android.view.View
 import com.laatonwalabhoot.hackernews.R
 import kotlinx.android.synthetic.main.activity_detail.*
 import com.google.gson.Gson
+import com.laatonwalabhoot.hackernews.HackerNews
 import com.laatonwalabhoot.hackernews.common.Constants
 import com.laatonwalabhoot.hackernews.data.models.Article
+import com.laatonwalabhoot.hackernews.di.components.AppComponent
+import com.laatonwalabhoot.hackernews.di.components.DaggerAppComponent
 import com.laatonwalabhoot.hackernews.ui.detail.comments.CommentFragment
 import com.laatonwalabhoot.hackernews.utils.TimeUpdateUtils
+import javax.inject.Inject
 
 class DetailActivity : AppCompatActivity() {
 
     private lateinit var detailPagerAdapter: DetailPagerAdapter
     private lateinit var article: Article
     private lateinit var detailViewModel: DetailViewModel
+    private lateinit var component: AppComponent
 
-    companion object {
-        fun newIntent(context: Context, article: Article): Intent {
-            val intent = Intent(context, DetailActivity::class.java)
-            intent.putExtra(Constants.EXTRA_ARTICLE, Gson().toJson(article))
-            return intent
-        }
-    }
+    @Inject
+    lateinit var gson: Gson
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail)
         setSupportActionBar(toolbar)
+        component = HackerNews.newInstance().getApp(this).getAppComponent()
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         detailViewModel = ViewModelProviders.of(this).get(DetailViewModel::class.java)
         initIntent(savedInstanceState)
@@ -50,7 +51,7 @@ class DetailActivity : AppCompatActivity() {
     }
 
     private fun initIntent(bundle: Bundle?) {
-        article = Gson().fromJson(intent.getStringExtra(Constants.EXTRA_ARTICLE), Article::class.java)
+        article = component.gson().fromJson(intent.getStringExtra(Constants.EXTRA_ARTICLE), Article::class.java)
         detailViewModel.setArticleForFragments(article)
 
         //initializing Top view

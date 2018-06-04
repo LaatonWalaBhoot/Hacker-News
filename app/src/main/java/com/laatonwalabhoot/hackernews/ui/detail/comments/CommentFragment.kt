@@ -8,15 +8,27 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.laatonwalabhoot.hackernews.HackerNews
 import com.laatonwalabhoot.hackernews.R
 import com.laatonwalabhoot.hackernews.common.Constants
+import com.laatonwalabhoot.hackernews.data.remote.ApiService
+import com.laatonwalabhoot.hackernews.di.components.CommentFragmentComponent
+import com.laatonwalabhoot.hackernews.di.components.DaggerCommentFragmentComponent
+import com.laatonwalabhoot.hackernews.ui.detail.DetailActivity
 import com.laatonwalabhoot.hackernews.ui.detail.DetailViewModel
 import kotlinx.android.synthetic.main.fragment_comments.*
+import javax.inject.Inject
 
 class CommentFragment : Fragment() {
 
     private lateinit var detailViewModel: DetailViewModel
-    private val commentsAdapter: CommentsAdapter = CommentsAdapter()
+    private lateinit var component: CommentFragmentComponent
+
+    @Inject
+    lateinit var commentsAdapter: CommentsAdapter
+
+    @Inject
+    lateinit var apiService: ApiService
 
     companion object {
         fun newInstance() = CommentFragment()
@@ -30,6 +42,12 @@ class CommentFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         detailViewModel = ViewModelProviders.of(activity!!).get(DetailViewModel::class.java)
         super.onViewCreated(view, savedInstanceState)
+        component = DaggerCommentFragmentComponent.builder()
+                .appComponent(HackerNews.newInstance()
+                        .getApp(activity as DetailActivity)
+                        .getAppComponent())
+                .build()
+        component.injectCommentFragment(this)
         setAdapter()
         setSubscriber()
     }
@@ -38,7 +56,7 @@ class CommentFragment : Fragment() {
         comments_list.layoutManager = LinearLayoutManager(context)
         comments_list.adapter = commentsAdapter
         detailViewModel.setOnDataChangeListener(commentsAdapter.getListener())
-        detailViewModel.initList()
+        detailViewModel.initList(apiService)
     }
 
     private fun setSubscriber() {
