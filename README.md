@@ -7,21 +7,32 @@
 
 MVVM 
 Consume Hacker news API and display results
+
 Push Motifications support
+
 Offline capacity to store results
+
 Login using Firebase
+
 Each article has comments as well as URL displayed
 
 # Libraries Used
 Realm Databse
+
 Firebase
+
 Butterknife
+
 Retrofit
+
 RxJava
 
 # Future Prospects
 Implement follow feature for users
+
 Allow comments
+
 Auto-refresh
+
 Searching capabilties
 
